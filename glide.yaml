@@ -1,0 +1,6 @@
+package: .
+import:
+- package: github.com/gorilla/sessions
+- package: gopkg.in/mgo.v2
+  subpackages:
+  - bson

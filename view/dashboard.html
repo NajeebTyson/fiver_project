@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/static/theme.css" type="text/css">
+  <link rel="stylesheet" href="https//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <b>WIS Token</b>
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto px-5">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <b>About</b>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+              <b>Contact us</b>
+            </a>
+          </li>
+        </ul>
+        {{if not .}}
+          <a class="btn mx-3 btn-dark" href="/registration">
+            <b>REGISTRATION</b>
+          </a>
+          <a class="btn btn-dark" href="/login">
+            <b>LOGIN </b>
+            <br>
+          </a>
+        {{end}}
+        {{if .}}
+          <a class="btn btn-dark" href="/logout">
+            <b>LOGOUT </b>
+            <br>
+          </a>
+        {{end}}
+      </div>
+    </div>
+  </nav>
+  <div class="py-3" style="background-image: url(&quot;/static/images/bg-01.jpg&quot;);background-size:cover;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header text-center" style="font-size:40px">DASHBOARD</div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p style="font-size:40px">
+                      <u>View Profile </u>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Name </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Name}}</b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Gender </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Gender}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Date of Birth </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Dob}}</b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Passport / ID No. </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Passport}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Nationality </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Nationality}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Address 1 </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Address1}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Address 2 </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b>{{.Address2}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Country </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Country}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Mobile No. </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Mobile}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">Email Address </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Email}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">User Name</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Username}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <p style="font-size:40px">
+                      <u>Status </u>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">KYC</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Kycstatus}} </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">AML</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Aml}}</b>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">CFT</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px;">
+                      <b> {{.Cft}} </b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10  offset-md-1"> </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:250px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo Free&nbsp;&nbsp;
+    <img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16">
+  </pingendo>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/animsition/js/animsition.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/bootstrap/js/popper.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/select2/select2.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/daterangepicker/moment.min.js"></script>
+  <script src="/static/vendor/daterangepicker/daterangepicker.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/countdowntime/countdowntime.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/js/main.js"></script>
+</body>
+
+</html>

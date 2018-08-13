@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/static/theme.css" type="text/css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body class="">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#"> <b>WIS Token</b> </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"> <span class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto px-5">
+          <li class="nav-item">
+            <a class="nav-link" href="#"> <b>About</b> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#"> <b>Contact us</b> </a>
+          </li>
+        </ul>
+        <a class="btn mx-3 btn-dark" href="/registration"> <b>REGISTRATION</b> </a>
+        <a class="btn btn-dark" href="/login"> <b>LOGIN </b>
+          <br> </a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5" style="background-image: url(&quot;/static/images/bg-01.jpg&quot;);background-size:cover;">
+  <form method="POST" action="/registration"enctype="multipart/form-data">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 offset-md-3">
+          <div class="card">
+            <div class="card-body h-100 p-3 w-100">
+              <h1 class="display-4 text-center">KYC Registration</h1>
+              <h3 class="text-left"> Register</h3> <span class="label-input100">Name</span>
+              <input class="input100 w-100" type="text" name="name" placeholder="Type your Name" required="required">
+              <p> </p> <span class="input100 w-100">Gender</span>
+              <br>
+              <input type="radio" name="gender" value="male"> Male
+              <input type="radio" name="gender" value="female" class="" required="required"> Female
+              <br>
+              <div>
+                <p class="">Date:
+                  <input type="text" id="datepicker" name="dob"> </p>
+              </div>
+                <div> <label for="profile_pic">Documents Uploads [ID / Passport]</label>
+                  <input type="file"  id="profile_pic" name="document" accept=".jpg, .jpeg, .png"> </div>
+              <script>
+                var test = document.querySelector('input');
+              </script>
+              <span class="label-input100">passport/ID #</span>
+              <input class="input100 w-100" type="text" name="passport" placeholder="Type your passport/ID #" required="required">
+
+              <div> <label>Nationailty</label>
+                <br> <select name="nationality" class="" required="required">
+                  <option value="singaporean" selected="selected">Singaporean</option>
+                  <option value="slovakian">Slovakian</option>
+                  <option value="slovenian">Slovenian</option>
+                  <option value="zambian">Zambian</option>
+                  <option value="zimbabwean">Zimbabwean</option>
+                </select> </div>
+              <div class="my-1"> <label>Address 1</label>
+                <br>
+                <input type="text" name="address1" value="" class="w-100" required="required">
+                <br> <label>Address 2</label>
+                <br>
+                <input type="text" name="address2" value="" class="w-100">
+                <br> </div>
+              <div class="my-1"> <label>Country</label>
+                <br> <select name="country" class="" required="required">
+                  <option value="singaporean" selected="selected">Singapore</option>
+                  <option value="zambian">Zambi</option>
+                  <option value="zimbabwean">Zimbabwe</option>
+                </select> </div>
+                <span class="label-input100">Mobile #</span>
+                  <input class="input100 w-100" type="text" name="mobile" placeholder="Type yourmobile #" required="required">
+
+              <fieldset> <label for="mail">Email:</label>
+                <br>
+                <input type="email" id="mail" name="email" class="w-100" required="required">
+                <br> <label for="name">User Name:</label>
+                <br>
+                <input type="text" id="name" name="username" class="w-100">
+                <div class="row">
+                  <div class="col-md-6"> <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="" required="required"> </div>
+                  <div class="col-md-6"> <label for="password2">Confirm Password:</label>
+                    <input type="password" id="password2" name="password2" required="required" class=""> </div>
+                </div>
+                <br> </fieldset>
+              <div>
+                <button type="submit" class="align-self-center w-100 text-light bg-success"> Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:110px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">made with&nbsp;&nbsp;
+    <img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16">
+  </pingendo>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/animsition/js/animsition.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/bootstrap/js/popper.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/select2/select2.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/daterangepicker/moment.min.js"></script>
+  <script src="/static/vendor/daterangepicker/daterangepicker.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/vendor/countdowntime/countdowntime.js"></script>
+  <!--===============================================================================================-->
+  <script src="/static/js/main.js"></script>
+  <script>
+    $( function() {
+      $( "#datepicker" ).datepicker();
+    } );
+  </script>
+</body>
+
+</html>
