@@ -67,6 +67,10 @@ func main() {
 	http.HandleFunc("/view-new-members", viewNewMembersViewHandler)
 	http.HandleFunc("/edit-new-members", viewNewMembersEditHandler)
 	http.HandleFunc("/remove-new-members", viewNewMembersDeleteHandler)
+	http.HandleFunc("/kyc-approved-members", viewKycApprovedHandler)
+	http.HandleFunc("/kyc-pending-members", viewKycPendingHandler)
+	http.HandleFunc("/all-members", viewAllMembersHandler)
+
 	http.HandleFunc("/view-user", userViewHandler)
 	http.HandleFunc("/edit-user", userEditHandler)
 	http.HandleFunc("/remove-user", userRemoveHandler)
@@ -438,6 +442,90 @@ func viewNewMembersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 				"Persons":  newPersons,
 				"Link":     "/remove-user?u=",
 				"LinkName": "remove"})
+		} else {
+			http.Redirect(res, req, "/admin-login", http.StatusSeeOther)
+		}
+	} else {
+		res.WriteHeader(404)
+	}
+}
+
+func viewKycApprovedHandler(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		session, _ := STORE.Get(req, ADMIN_SESSION)
+		auth, ok := session.Values[AUTHENTICATED].(bool)
+		admin_auth, admin_ok := session.Values[PERSON_TYPE].(string)
+		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
+			var newPersons []Person
+			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
+			personCollection.Find(bson.M{"kycstatus": "Approved"}).All(&newPersons)
+
+			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
+			if err != nil {
+				fmt.Fprintf(res, "Error in parsing template file")
+				log.Fatal(err)
+				return
+			}
+			newMemberViewPageTemplate.Execute(res, map[string]interface{}{"Title": "KYC Approved Members",
+				"Persons":  newPersons,
+				"Link":     "/view-user?u=",
+				"LinkName": "view"})
+		} else {
+			http.Redirect(res, req, "/admin-login", http.StatusSeeOther)
+		}
+	} else {
+		res.WriteHeader(404)
+	}
+}
+
+func viewKycPendingHandler(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		session, _ := STORE.Get(req, ADMIN_SESSION)
+		auth, ok := session.Values[AUTHENTICATED].(bool)
+		admin_auth, admin_ok := session.Values[PERSON_TYPE].(string)
+		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
+			var newPersons []Person
+			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
+			personCollection.Find(bson.M{"kycstatus": "Pending"}).All(&newPersons)
+
+			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
+			if err != nil {
+				fmt.Fprintf(res, "Error in parsing template file")
+				log.Fatal(err)
+				return
+			}
+			newMemberViewPageTemplate.Execute(res, map[string]interface{}{"Title": "KYC Pending Members",
+				"Persons":  newPersons,
+				"Link":     "/view-user?u=",
+				"LinkName": "view"})
+		} else {
+			http.Redirect(res, req, "/admin-login", http.StatusSeeOther)
+		}
+	} else {
+		res.WriteHeader(404)
+	}
+}
+
+func viewAllMembersHandler(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		session, _ := STORE.Get(req, ADMIN_SESSION)
+		auth, ok := session.Values[AUTHENTICATED].(bool)
+		admin_auth, admin_ok := session.Values[PERSON_TYPE].(string)
+		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
+			var newPersons []Person
+			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
+			personCollection.Find(bson.M{}).All(&newPersons)
+
+			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
+			if err != nil {
+				fmt.Fprintf(res, "Error in parsing template file")
+				log.Fatal(err)
+				return
+			}
+			newMemberViewPageTemplate.Execute(res, map[string]interface{}{"Title": "All Members",
+				"Persons":  newPersons,
+				"Link":     "/view-user?u=",
+				"LinkName": "view"})
 		} else {
 			http.Redirect(res, req, "/admin-login", http.StatusSeeOther)
 		}
