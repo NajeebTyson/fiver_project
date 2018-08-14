@@ -138,6 +138,7 @@ func loginPageHandler(res http.ResponseWriter, req *http.Request) {
 		session.Save(req, res)
 		loginPageTemplate.Execute(res, map[string]interface{}{"message": message})
 	} else if req.Method == "POST" {
+		fmt.Println("POST: Login")
 		if err := req.ParseForm(); err != nil {
 			fmt.Fprintf(res, "ParseForm() err: %v", err)
 			return
@@ -145,9 +146,11 @@ func loginPageHandler(res http.ResponseWriter, req *http.Request) {
 		session, _ := STORE.Get(req, USER_SESSION)
 
 		person := Person{Username: req.FormValue("username"), Password: req.FormValue("password")}
+		fmt.Println("person: ", person)
 		var foundPerson Person
 		personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
 		personCollection.Find(bson.M{"username": person.Username, "password": person.Password}).One(&foundPerson)
+		fmt.Println("Found person: ", foundPerson)
 		if foundPerson.Username == person.Username {
 			if foundPerson.Address2 == "" {
 				foundPerson.Address2 = "nil"
