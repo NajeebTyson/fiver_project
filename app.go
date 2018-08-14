@@ -34,7 +34,7 @@ var PORT int = 3000
 var DB_NAME string = "chatbot_data"
 
 // var DB_URL string = "mongodb://127.0.0.1:27017/"
-var DB_URL string = "mongodb://pkbotuser:impkbotnewuser77@ds111535.mlab.com:11535/"
+var DB_URL string = "mongodb://pkbotuser:impkbotnewuser77@ds111535.mlab.com:11535/mongodb://<dbuser>:<dbpassword>@ds111535.mlab.com:11535/chatbot_data"
 var DB_COLLECTION_PERSON string = "person"
 var DB_COLLECTION_ADMIN_PERSON string = "adminPerson"
 
@@ -80,14 +80,12 @@ func landingPageHandler(res http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
 		session, _ := STORE.Get(req, ADMIN_SESSION)
 		auth, ok := session.Values[AUTHENTICATED].(bool)
-		fmt.Println("In home: ", auth, ok)
 		if ok && auth {
 			user_auth, user_ok := session.Values[PERSON_TYPE].(string)
 			if user_ok && user_auth == USER_ADMIN {
 				http.Redirect(res, req, "/admin-dashboard", http.StatusSeeOther)
 				return
 			} else if user_ok && user_auth == USER_PERSON {
-				fmt.Println("Yes user")
 				http.Redirect(res, req, "/user-dashboard", http.StatusSeeOther)
 				return
 			}
@@ -348,12 +346,10 @@ func userDashboardPageHandler(res http.ResponseWriter, req *http.Request) {
 				var person = &Person{}
 				person, ok := val.(*Person)
 				if ok {
-					fmt.Println("In dash: ", auth, ok)
 					dashboardPageTemplate.Execute(res, &person)
 					return
 				}
 			} else {
-				fmt.Println("Making auth false")
 				session.Values[AUTHENTICATED] = false
 				session.Values[PERSON_TYPE] = ""
 				session.Save(req, res)
