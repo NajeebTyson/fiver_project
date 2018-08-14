@@ -34,7 +34,7 @@ var PORT int = 3000
 var DB_NAME string = "chatbot_data"
 
 // var DB_URL string = "mongodb://127.0.0.1:27017/"
-var DB_URL string = "mongodb://pkbotuser:impkbotnewuser77@ds111535.mlab.com:11535/mongodb://<dbuser>:<dbpassword>@ds111535.mlab.com:11535/chatbot_data"
+var DB_URL string = "mongodb://pkbotuser:impkbotnewuser77@ds111535.mlab.com:11535/chatbot_data"
 var DB_COLLECTION_PERSON string = "person"
 var DB_COLLECTION_ADMIN_PERSON string = "adminPerson"
 
