@@ -86,9 +86,9 @@
                               <td class="text-center">{{.Mobile}}</td>
                               <td class="text-center">{{.Dob}}</td>
                               <td class="text-center">{{.Memberstatus}}</td>
-                              <td class="text-center">
+                              <td class="text-center removeTD">
                                 {{if eq $.LinkName "remove"}}
-                                  <input data-username="{{.Username}}" type="button" id="removeUser" value="{{$.LinkName}}"/>
+                                  <input data-username="{{.Username}}" type="button" class="removeUser" value="{{$.LinkName}}"/>
                                 {{else}}
                                   <a href="{{$.Link}}{{.Username}}">{{$.LinkName}}</a>
                                 {{end}}
@@ -130,12 +130,12 @@
   <!--===============================================================================================-->
   <script src="/static/js/main.js"></script>
   <script>
-    $('#removeUser').on('click', function(){
-      var username = $(this).data('username')
+    $(document).on('click', '.removeTD .removeUser', function(){
+      var username = $(this).data('username');
+      let tableRow = $(this).parent().parent().remove();
       $.post('/remove-user', {'username': username}).done(function(done) {
         if (done === "done") {
-          row = document.getElementById("removeUser");
-          row.parentElement.parentElement.remove();
+          tableRow.remove()
         }
       });
     });

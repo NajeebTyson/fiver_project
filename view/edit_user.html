@@ -75,13 +75,8 @@
               <input class="input100 w-100" value="{{.Passport}}"type="text" name="passport" placeholder="Type your passport/ID #" required="required">
 
               <div> <label>Nationailty</label>
-                <br> <select name="nationality" class="" required="required">
+                <br> <select id="nationality" name="nationality" class="" required="required">
                   <option value="{{.Nationality}}" selected="selected">{{.Nationality}}</option>
-                  <option value="singaporean" >Singaporean</option>
-                  <option value="slovakian">Slovakian</option>
-                  <option value="slovenian">Slovenian</option>
-                  <option value="zambian">Zambian</option>
-                  <option value="zimbabwean">Zimbabwean</option>
                 </select> </div>
               <div class="my-1"> <label>Address 1</label>
                 <br>
@@ -91,10 +86,8 @@
                 <input type="text" name="address2" class="w-100" value="{{.Address2}}">
                 <br> </div>
               <div class="my-1"> <label>Country</label>
-                <br> <select name="country" class="" required="required">
+                <br> <select id="country" name="country" class="" required="required">
                   <option value="{{.Country}}" selected="selected">{{.Country}}</option>
-                  <option value="zambian">Zambi</option>
-                  <option value="zimbabwean">Zimbabwe</option>
                 </select> </div>
                 <span class="label-input100">Mobile #</span>
                   <input class="input100 w-100" type="text" name="mobile"value="{{.Mobile}}" placeholder="Type yourmobile #" required="required">
@@ -129,6 +122,7 @@
   <script src="/static/vendor/countdowntime/countdowntime.js"></script>
   <!--===============================================================================================-->
   <script src="/static/js/main.js"></script>
+  <script src="/static/js/country.js"></script>
   <script>
     $( function() {
       $( "#datepicker" ).datepicker();

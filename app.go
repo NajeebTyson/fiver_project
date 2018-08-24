@@ -72,6 +72,7 @@ func main() {
 	http.HandleFunc("/all-members", viewAllMembersHandler)
 
 	http.HandleFunc("/view-user", userViewHandler)
+	http.HandleFunc("/view-user-final", userStaticViewHandler)
 	http.HandleFunc("/edit-user", userEditHandler)
 	http.HandleFunc("/remove-user", userRemoveHandler)
 	http.HandleFunc("/", landingPageHandler)
@@ -218,7 +219,7 @@ func registrationPageHandler(res http.ResponseWriter, req *http.Request) {
 			Cft:          "pending",
 			Bankname:     "",
 			Chequeno:     "",
-			Amount:       0,
+			Amount:       "0",
 			Memberstatus: "new"}
 
 		personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
@@ -374,7 +375,7 @@ func viewNewMembersViewHandler(res http.ResponseWriter, req *http.Request) {
 		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
 			var newPersons []Person
 			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
-			personCollection.Find(bson.M{"memberstatus": "new"}).All(&newPersons)
+			personCollection.Find(bson.M{"memberstatus": "new"}).Select(bson.M{"username": 1, "name": 1, "email": 1, "passport": 1, "mobile": 1, "dob": 1, "memberstatus": 1}).All(&newPersons)
 
 			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
 			if err != nil {
@@ -402,7 +403,7 @@ func viewNewMembersEditHandler(res http.ResponseWriter, req *http.Request) {
 		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
 			var newPersons []Person
 			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
-			personCollection.Find(bson.M{"memberstatus": "new"}).All(&newPersons)
+			personCollection.Find(bson.M{"memberstatus": "new"}).Select(bson.M{"username": 1, "name": 1, "email": 1, "passport": 1, "mobile": 1, "dob": 1, "memberstatus": 1}).All(&newPersons)
 
 			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
 			if err != nil {
@@ -430,7 +431,7 @@ func viewNewMembersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
 			var newPersons []Person
 			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
-			personCollection.Find(bson.M{"memberstatus": "new"}).All(&newPersons)
+			personCollection.Find(bson.M{"memberstatus": "new"}).Select(bson.M{"username": 1, "name": 1, "email": 1, "passport": 1, "mobile": 1, "dob": 1, "memberstatus": 1}).All(&newPersons)
 
 			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
 			if err != nil {
@@ -458,7 +459,7 @@ func viewKycApprovedHandler(res http.ResponseWriter, req *http.Request) {
 		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
 			var newPersons []Person
 			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
-			personCollection.Find(bson.M{"kycstatus": "Approved"}).All(&newPersons)
+			personCollection.Find(bson.M{"kycstatus": "approved"}).Select(bson.M{"username": 1, "name": 1, "email": 1, "passport": 1, "mobile": 1, "dob": 1, "memberstatus": 1}).All(&newPersons)
 
 			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
 			if err != nil {
@@ -468,7 +469,7 @@ func viewKycApprovedHandler(res http.ResponseWriter, req *http.Request) {
 			}
 			newMemberViewPageTemplate.Execute(res, map[string]interface{}{"Title": "KYC Approved Members",
 				"Persons":  newPersons,
-				"Link":     "/view-user?u=",
+				"Link":     "/view-user-final?u=",
 				"LinkName": "view"})
 		} else {
 			http.Redirect(res, req, "/admin-login", http.StatusSeeOther)
@@ -486,8 +487,7 @@ func viewKycPendingHandler(res http.ResponseWriter, req *http.Request) {
 		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
 			var newPersons []Person
 			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
-			personCollection.Find(bson.M{"kycstatus": "Pending"}).All(&newPersons)
-
+			personCollection.Find(bson.M{"kycstatus": "pending"}).Select(bson.M{"username": 1, "name": 1, "email": 1, "passport": 1, "mobile": 1, "dob": 1, "memberstatus": 1}).All(&newPersons)
 			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
 			if err != nil {
 				fmt.Fprintf(res, "Error in parsing template file")
@@ -514,7 +514,7 @@ func viewAllMembersHandler(res http.ResponseWriter, req *http.Request) {
 		if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
 			var newPersons []Person
 			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
-			personCollection.Find(bson.M{}).All(&newPersons)
+			personCollection.Find(bson.M{}).Select(bson.M{"username": 1, "name": 1, "email": 1, "passport": 1, "mobile": 1, "dob": 1, "memberstatus": 1}).All(&newPersons)
 
 			newMemberViewPageTemplate, err := template.ParseFiles("./view/new_members.html")
 			if err != nil {
@@ -579,8 +579,38 @@ func userViewHandler(res http.ResponseWriter, req *http.Request) {
 				"chequeno":     chequeNo,
 				"bankname":     bankName,
 				"amount":       amount}})
+			http.Redirect(res, req, "/admin-dashboard", http.StatusSeeOther)
+		} else {
+			res.WriteHeader(404)
+		}
+	} else {
+		http.Redirect(res, req, "/admin-login", http.StatusSeeOther)
+	}
+}
 
-			http.Redirect(res, req, "/admin-dashboard", http.StatusNotModified)
+func userStaticViewHandler(res http.ResponseWriter, req *http.Request) {
+	session, _ := STORE.Get(req, ADMIN_SESSION)
+	auth, ok := session.Values[AUTHENTICATED].(bool)
+	admin_auth, admin_ok := session.Values[PERSON_TYPE].(string)
+	if (ok && auth) && (admin_ok && admin_auth == USER_ADMIN) {
+		if req.Method == "GET" {
+			userName := req.URL.Query().Get("u")
+
+			var person Person
+			personCollection := dbConnection.DB(DB_NAME).C(DB_COLLECTION_PERSON)
+			personCollection.Find(bson.M{"username": userName}).One(&person)
+			if person.Address2 == "" {
+				person.Address2 = "Nil"
+			}
+			adminUserViewPageTemplate, err := template.ParseFiles("./view/admin_static_view.html")
+			if err != nil {
+				fmt.Fprintf(res, "Error in parsing template file")
+				log.Fatal(err)
+				return
+			}
+			imageEnc := b64.StdEncoding.EncodeToString(person.Document)
+			person.Document = []byte("")
+			adminUserViewPageTemplate.Execute(res, map[string]interface{}{"person": person, "image": imageEnc})
 		} else {
 			res.WriteHeader(404)
 		}
@@ -706,25 +736,25 @@ type AdminPerson struct {
 
 type Person struct {
 	// ID   bson.ObjectId
-	Name         string  `bson:"name" json:"name"`
-	Gender       string  `bson:"gender" json:"gender"`
-	Nationality  string  `bson:"nationality" json:"nationality"`
-	Address1     string  `bson:"address1" json:"address1"`
-	Address2     string  `bson:"address2" json:"address2"`
-	Country      string  `bson:"country" json:"country"`
-	Email        string  `bson:"email" json:"email"`
-	Username     string  `bson:"username" json:"username"`
-	Password     string  `bson:"password" json:"password"`
-	Dob          string  `bson:"dob" json:"dob"`
-	Kycstatus    string  `bson:"kycstatus" json:"kycstatus"`
-	Memberstatus string  `bson:"memberstatus" json:"memberstatus"`
-	Passport     string  `bson:"passport" json:"passport"`
-	Documentname string  `bson:"documentname" json:"documentname"`
-	Document     []byte  `bson:"document" json:"document"`
-	Mobile       string  `bson:"mobile" json:"mobile"`
-	Aml          string  `bson:"aml" json:"aml"`
-	Cft          string  `bson:"cft" json:"cft"`
-	Chequeno     string  `bson:"chequeno" json:"chequeno"`
-	Bankname     string  `bson:"bankname" json:"bankname"`
-	Amount       float64 `bson:"amount" json:"amount"`
+	Name         string `bson:"name" json:"name"`
+	Gender       string `bson:"gender" json:"gender"`
+	Nationality  string `bson:"nationality" json:"nationality"`
+	Address1     string `bson:"address1" json:"address1"`
+	Address2     string `bson:"address2" json:"address2"`
+	Country      string `bson:"country" json:"country"`
+	Email        string `bson:"email" json:"email"`
+	Username     string `bson:"username" json:"username"`
+	Password     string `bson:"password" json:"password"`
+	Dob          string `bson:"dob" json:"dob"`
+	Kycstatus    string `bson:"kycstatus" json:"kycstatus"`
+	Memberstatus string `bson:"memberstatus" json:"memberstatus"`
+	Passport     string `bson:"passport" json:"passport"`
+	Documentname string `bson:"documentname" json:"documentname"`
+	Document     []byte `bson:"document" json:"document"`
+	Mobile       string `bson:"mobile" json:"mobile"`
+	Aml          string `bson:"aml" json:"aml"`
+	Cft          string `bson:"cft" json:"cft"`
+	Chequeno     string `bson:"chequeno" json:"chequeno"`
+	Bankname     string `bson:"bankname" json:"bankname"`
+	Amount       string `bson:"amount" json:"amount"`
 }
